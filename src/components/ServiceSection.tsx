@@ -1,18 +1,32 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useIntersectionObserver } from '@/utils/animations';
 
 interface ServiceCardProps {
   title: string;
   description: string;
   buttonText: string;
   buttonUrl: string;
+  index: number;
 }
 
-const ServiceCard = ({ title, description, buttonText, buttonUrl }: ServiceCardProps) => {
+const ServiceCard = ({ title, description, buttonText, buttonUrl, index }: ServiceCardProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  const cardRef = useIntersectionObserver((entry) => {
+    if (entry.isIntersecting) {
+      setIsVisible(true);
+    }
+  });
+
   return (
-    <Card className="flex flex-col h-full border-0 shadow-lg rounded-lg overflow-hidden">
+    <Card 
+      ref={cardRef as React.RefObject<HTMLDivElement>}
+      className={`flex flex-col h-full border-0 shadow-lg rounded-lg overflow-hidden transition-all duration-700 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      style={{ transitionDelay: `${index * 200}ms` }}
+    >
       <CardHeader className="bg-lamphun-light">
         <CardTitle className="text-xl font-bold text-lamphun-dark">{title}</CardTitle>
       </CardHeader>
@@ -61,6 +75,7 @@ const ServiceSection = () => {
               description={service.description}
               buttonText={service.buttonText}
               buttonUrl={service.buttonUrl}
+              index={index}
             />
           ))}
         </div>

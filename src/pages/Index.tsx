@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ServiceSection from '@/components/ServiceSection';
@@ -8,6 +8,23 @@ import TourismSection from '@/components/TourismSection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
+  // Add padding to body to account for fixed header
+  useEffect(() => {
+    const updateBodyPadding = () => {
+      const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+      document.body.style.paddingTop = `${headerHeight}px`;
+    };
+
+    // Initial call and event listener for window resize
+    updateBodyPadding();
+    window.addEventListener('resize', updateBodyPadding);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateBodyPadding);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />

@@ -1,15 +1,36 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Menu, X, Search } from "lucide-react";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    // Add animation on component mount
+    setIsVisible(true);
+
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const menuItems = [
     { name: "หน้าหลัก", href: "/" },
@@ -23,20 +44,20 @@ const Header = () => {
   ];
 
   return (
-    <header className="w-full">
+    <header className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md bg-white' : ''}`}>
       {/* Top blue bar */}
-      <div className="bg-lamphun-primary py-1">
+      <div className={`bg-lamphun-primary py-1 transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="container mx-auto">
           <p className="text-white text-sm text-right">เว็บไซต์ราชการองค์การบริหารส่วนจังหวัดลำพูน</p>
         </div>
       </div>
       
       {/* Main header */}
-      <div className="bg-white shadow-sm">
+      <div className={`bg-white ${isScrolled ? 'py-2' : 'py-3'} transition-all duration-300`}>
         <div className="container mx-auto">
           <div className="flex justify-between items-center py-3 px-4 md:px-0">
             {/* Logo */}
-            <div className="flex items-center space-x-3">
+            <div className={`flex items-center space-x-3 transition-all duration-500 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
               <img 
                 src="/lovable-uploads/2eef0083-fcad-4c0c-9d51-bdac581bf5ca.png" 
                 alt="Lamphun Provincial Administrative Organization Logo" 
@@ -49,7 +70,7 @@ const Header = () => {
             </div>
             
             {/* Search, Facebook and Mobile Menu Toggle */}
-            <div className="flex items-center space-x-2">
+            <div className={`flex items-center space-x-2 transition-all duration-500 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
               <div className="hidden md:flex items-center space-x-2">
                 <div className="relative">
                   <Input 
@@ -59,7 +80,7 @@ const Header = () => {
                   />
                   <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 </div>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
                   <Button variant="ghost" size="icon" className="text-lamphun-primary">
                     <Facebook size={20} />
                   </Button>
@@ -75,12 +96,15 @@ const Header = () => {
       </div>
       
       {/* Desktop Navigation */}
-      <nav className="hidden md:block bg-lamphun-secondary text-white">
+      <nav className={`hidden md:block bg-lamphun-secondary text-white transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
         <div className="container mx-auto">
           <ul className="flex">
             {menuItems.map((item, index) => (
               <li key={index} className="group">
-                <a href={item.href} className="block px-4 py-3 hover:bg-opacity-80 transition-colors whitespace-nowrap">
+                <a 
+                  href={item.href} 
+                  className="block px-4 py-3 hover:bg-opacity-80 transition-colors whitespace-nowrap relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+                >
                   {item.name}
                 </a>
               </li>
@@ -91,7 +115,12 @@ const Header = () => {
       
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <nav className="md:hidden bg-white shadow-lg absolute w-full z-50">
+        <nav 
+          className="md:hidden bg-white shadow-lg absolute w-full z-50 overflow-hidden"
+          style={{
+            animation: mobileMenuOpen ? 'accordion-down 0.3s ease-out' : 'accordion-up 0.3s ease-out'
+          }}
+        >
           <div className="px-4 py-2">
             <div className="flex items-center justify-between mb-4">
               <div className="relative w-full">
@@ -113,7 +142,7 @@ const Header = () => {
                 <li key={index}>
                   <a 
                     href={item.href} 
-                    className="block px-4 py-2 hover:bg-lamphun-light rounded-md"
+                    className="block px-4 py-2 hover:bg-lamphun-light rounded-md transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
