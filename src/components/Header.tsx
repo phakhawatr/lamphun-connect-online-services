@@ -3,11 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Menu, X, Search } from "lucide-react";
+import { 
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeItem, setActiveItem] = useState("หน้าหลัก");
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -44,7 +54,7 @@ const Header = () => {
   ];
 
   return (
-    <header className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md bg-white' : ''}`}>
+    <header className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
       {/* Top blue bar */}
       <div className={`bg-lamphun-primary py-1 transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="container mx-auto">
@@ -69,17 +79,9 @@ const Header = () => {
               </div>
             </div>
             
-            {/* Search, Facebook and Mobile Menu Toggle */}
+            {/* Facebook and Mobile Menu Toggle */}
             <div className={`flex items-center space-x-2 transition-all duration-500 transform ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-              <div className="hidden md:flex items-center space-x-2">
-                <div className="relative">
-                  <Input 
-                    type="text" 
-                    placeholder="ค้นหา..." 
-                    className="w-32 lg:w-48 rounded-full bg-gray-100 border-0 focus:ring-2 focus:ring-lamphun-primary"
-                  />
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                </div>
+              <div className="hidden md:block">
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="transition-transform hover:scale-110">
                   <Button variant="ghost" size="icon" className="text-lamphun-primary">
                     <Facebook size={20} />
@@ -95,23 +97,38 @@ const Header = () => {
         </div>
       </div>
       
-      {/* Desktop Navigation */}
-      <nav className={`hidden md:block bg-lamphun-secondary text-white transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-        <div className="container mx-auto">
-          <ul className="flex">
-            {menuItems.map((item, index) => (
-              <li key={index} className="group">
-                <a 
-                  href={item.href} 
-                  className="block px-4 py-3 hover:bg-opacity-80 transition-colors whitespace-nowrap relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
-                >
-                  {item.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+      {/* Desktop Navigation - New Style */}
+      <div className={`hidden md:block bg-gray-800 text-white transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            {/* Search Icon */}
+            <div className="py-2">
+              <Button variant="ghost" size="sm" className="text-white hover:bg-gray-700 rounded-full p-2">
+                <Search size={20} />
+              </Button>
+            </div>
+            
+            {/* Menu Items */}
+            <nav className="flex">
+              <ul className="flex">
+                {menuItems.map((item, index) => (
+                  <li key={index} className="group">
+                    <a 
+                      href={item.href}
+                      className={`block px-4 py-3 transition-colors hover:bg-gray-700 whitespace-nowrap relative ${
+                        activeItem === item.name ? 'after:content-[""] after:absolute after:w-full after:h-0.5 after:bottom-0 after:left-0 after:bg-white' : ''
+                      }`}
+                      onClick={() => setActiveItem(item.name)}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
-      </nav>
+      </div>
       
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
@@ -142,8 +159,13 @@ const Header = () => {
                 <li key={index}>
                   <a 
                     href={item.href} 
-                    className="block px-4 py-2 hover:bg-lamphun-light rounded-md transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block px-4 py-2 hover:bg-lamphun-light rounded-md transition-colors ${
+                      activeItem === item.name ? 'bg-lamphun-light text-lamphun-primary font-medium' : ''
+                    }`}
+                    onClick={() => {
+                      setActiveItem(item.name);
+                      setMobileMenuOpen(false);
+                    }}
                   >
                     {item.name}
                   </a>
