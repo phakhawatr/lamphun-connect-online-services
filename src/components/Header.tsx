@@ -12,6 +12,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -45,7 +46,7 @@ const Header = () => {
   const menuItems = [
     { name: "หน้าหลัก", href: "/" },
     { name: "เกี่ยวกับ อบจ.", href: "#about" },
-    { name: "โครงสร้างองค์กร", href: "#structure" },
+    { name: "โครงสร้างองค์กร", href: "/structure" },
     { name: "นโยบายและยุทธศาสตร์", href: "#policy" },
     { name: "นโยบายผู้บริหาร", href: "#executive" },
     { name: "แผนพัฒนาท้องถิ่น", href: "#development" },
@@ -113,15 +114,15 @@ const Header = () => {
               <ul className="flex">
                 {menuItems.map((item, index) => (
                   <li key={index} className="group">
-                    <a 
-                      href={item.href}
+                    <Link 
+                      to={item.href}
                       className={`block px-4 py-3 transition-colors hover:bg-gray-700 whitespace-nowrap relative ${
                         activeItem === item.name ? 'after:content-[""] after:absolute after:w-full after:h-0.5 after:bottom-0 after:left-0 after:bg-white' : ''
                       }`}
                       onClick={() => setActiveItem(item.name)}
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -157,8 +158,8 @@ const Header = () => {
             <ul className="space-y-1">
               {menuItems.map((item, index) => (
                 <li key={index}>
-                  <a 
-                    href={item.href} 
+                  <Link 
+                    to={item.href} 
                     className={`block px-4 py-2 hover:bg-lamphun-light rounded-md transition-colors ${
                       activeItem === item.name ? 'bg-lamphun-light text-lamphun-primary font-medium' : ''
                     }`}
@@ -168,7 +169,7 @@ const Header = () => {
                     }}
                   >
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
