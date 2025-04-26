@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
+import AdventureCarousel from '@/components/AdventureCarousel';
 import ServiceSection from '@/components/ServiceSection';
 import NewsSection from '@/components/NewsSection';
 import BestOffersSection from '@/components/BestOffersSection';
@@ -30,7 +30,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
-        <HeroSection />
+        <AdventureCarousel />
         <ServiceSection />
         <NewsSection />
         <BestOffersSection />

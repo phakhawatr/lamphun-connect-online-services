@@ -149,6 +149,22 @@
   animation: pulse 3s ease-in-out infinite;
 }
 
+/* Adventure Carousel Animations */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s forwards ease-out;
+}
+
 /* Transition and transform utilities */
 .transition-fast {
   transition: all 0.3s ease;
