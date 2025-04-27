@@ -44,6 +44,20 @@ const slides = [
 
 // Modern Gradient Carousel
 const GradientCarousel = () => {
+  const handlePrevClick = () => {
+    const prevButton = document.querySelector('[data-carousel-prev]');
+    if (prevButton instanceof HTMLElement) {
+      prevButton.click();
+    }
+  };
+
+  const handleNextClick = () => {
+    const nextButton = document.querySelector('[data-carousel-next]');
+    if (nextButton instanceof HTMLElement) {
+      nextButton.click();
+    }
+  };
+
   return (
     <div className="w-full py-12 bg-gray-900">
       <Carousel className="w-full max-w-5xl mx-auto">
@@ -92,7 +106,7 @@ const GradientCarousel = () => {
             variant="ghost"
             size="icon"
             className="w-12 h-12 rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-            onClick={() => document.querySelector('[data-carousel-prev]')?.click()}
+            onClick={handlePrevClick}
           >
             <ChevronLeft className="h-6 w-6" />
           </Button>
@@ -102,7 +116,7 @@ const GradientCarousel = () => {
             variant="ghost"
             size="icon"
             className="w-12 h-12 rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-            onClick={() => document.querySelector('[data-carousel-next]')?.click()}
+            onClick={handleNextClick}
           >
             <ChevronRight className="h-6 w-6" />
           </Button>
@@ -114,6 +128,20 @@ const GradientCarousel = () => {
 
 // 3D Card Carousel
 const CardCarousel = () => {
+  const handlePrevClick = () => {
+    const prevButton = document.querySelector('[data-carousel-prev]');
+    if (prevButton instanceof HTMLElement) {
+      prevButton.click();
+    }
+  };
+
+  const handleNextClick = () => {
+    const nextButton = document.querySelector('[data-carousel-next]');
+    if (nextButton instanceof HTMLElement) {
+      nextButton.click();
+    }
+  };
+
   return (
     <div className="w-full py-12 bg-gray-100">
       <Carousel className="w-full max-w-5xl mx-auto">
@@ -149,7 +177,7 @@ const CardCarousel = () => {
             variant="ghost"
             size="icon"
             className="w-10 h-10 rounded-full bg-white shadow-lg hover:bg-gray-100"
-            onClick={() => document.querySelector('[data-carousel-prev]')?.click()}
+            onClick={handlePrevClick}
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
@@ -159,7 +187,7 @@ const CardCarousel = () => {
             variant="ghost"
             size="icon"
             className="w-10 h-10 rounded-full bg-white shadow-lg hover:bg-gray-100"
-            onClick={() => document.querySelector('[data-carousel-next]')?.click()}
+            onClick={handleNextClick}
           >
             <ChevronRight className="h-5 w-5" />
           </Button>
