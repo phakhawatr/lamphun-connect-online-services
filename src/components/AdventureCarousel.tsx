@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -62,7 +61,6 @@ const AdventureCarousel: React.FC = () => {
   const [pauseAutoplay, setPauseAutoplay] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
-  // Format slide index to display as "01", "02", etc.
   const formatSlideIndex = (index: number) => {
     return (index + 1).toString().padStart(2, '0');
   };
@@ -71,7 +69,6 @@ const AdventureCarousel: React.FC = () => {
     if (emblaApi) emblaApi.scrollTo(index);
   }, [emblaApi]);
 
-  // Handle auto-rotation
   useEffect(() => {
     if (!emblaApi || pauseAutoplay) return;
     
@@ -86,7 +83,6 @@ const AdventureCarousel: React.FC = () => {
     return () => clearInterval(interval);
   }, [emblaApi, pauseAutoplay]);
 
-  // Track selected slide index
   useEffect(() => {
     if (!emblaApi) return;
     
@@ -102,7 +98,6 @@ const AdventureCarousel: React.FC = () => {
     };
   }, [emblaApi]);
 
-  // Component mount check for animations
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -114,8 +109,7 @@ const AdventureCarousel: React.FC = () => {
       onMouseLeave={() => setPauseAutoplay(false)}
       aria-label="Adventure destinations carousel"
     >
-      {/* Main carousel container */}
-      <div ref={emblaRef} className="overflow-hidden h-[700px] md:h-[600px]">
+      <div ref={emblaRef} className="overflow-hidden h-[700px] md:h-[600px] relative">
         <div className="flex h-full">
           {slides.map((slide, index) => (
             <div 
@@ -125,7 +119,6 @@ const AdventureCarousel: React.FC = () => {
                 flexBasis: '100%',
               }}
             >
-              {/* Background image with overlay and zoom effect */}
               <div 
                 className={`absolute inset-0 bg-center bg-cover transition-transform duration-700 ${selectedIndex === index ? 'scale-105' : 'scale-100'}`}
                 style={{ 
@@ -138,7 +131,6 @@ const AdventureCarousel: React.FC = () => {
               
               <div className="container mx-auto h-full px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
-                  {/* Left side - Main content */}
                   <div className="flex flex-col justify-center z-10 space-y-6">
                     <span 
                       className={`text-lg md:text-xl opacity-0 ${isMounted && selectedIndex === index ? 'animate-fade-in' : ''}`}
@@ -177,7 +169,6 @@ const AdventureCarousel: React.FC = () => {
                     </div>
                   </div>
                   
-                  {/* Right side - Thumbnails */}
                   <div className="hidden md:flex flex-col justify-center items-end z-10">
                     <div className="grid grid-cols-2 gap-4 max-w-md">
                       {slides.map((thumbSlide, thumbIndex) => (
@@ -211,18 +202,16 @@ const AdventureCarousel: React.FC = () => {
         </div>
       </div>
       
-      {/* Navigation Controls */}
-      <div className="absolute bottom-8 right-8 z-20 flex items-center space-x-4">
+      <div className="absolute bottom-16 right-16 z-20 flex items-center space-x-4">
         <button
           onClick={() => emblaApi?.scrollPrev()}
-          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white"
+          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white absolute left-0 top-1/2 transform -translate-y-1/2"
           aria-label="Previous slide"
         >
           <ChevronLeft className="w-6 h-6 stroke-2" />
         </button>
         
-        {/* Progress bar */}
-        <div className="relative w-40 h-1 bg-white bg-opacity-30">
+        <div className="relative w-40 h-1 bg-white bg-opacity-30 mx-16">
           <div 
             className="absolute top-0 left-0 h-full bg-white transition-all duration-500 ease-in-out"
             style={{ width: `${((selectedIndex + 1) / slides.length) * 100}%` }}
@@ -231,7 +220,7 @@ const AdventureCarousel: React.FC = () => {
         
         <button
           onClick={() => emblaApi?.scrollNext()}
-          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white"
+          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white absolute right-0 top-1/2 transform -translate-y-1/2"
           aria-label="Next slide"
         >
           <ChevronRight className="w-6 h-6 stroke-2" />
@@ -242,7 +231,6 @@ const AdventureCarousel: React.FC = () => {
         </div>
       </div>
       
-      {/* Accessibility controls */}
       <div className="sr-only">
         <button onClick={() => setPauseAutoplay(!pauseAutoplay)}>
           {pauseAutoplay ? "Resume" : "Pause"} slideshow
