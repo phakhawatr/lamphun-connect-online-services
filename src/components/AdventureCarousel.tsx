@@ -1,6 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { 
   Carousel,
@@ -215,10 +215,10 @@ const AdventureCarousel: React.FC = () => {
       <div className="absolute bottom-8 right-8 z-20 flex items-center space-x-4">
         <button
           onClick={() => emblaApi?.scrollPrev()}
-          className="w-12 h-12 rounded-full flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-60 transition-all"
+          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-6 h-6 stroke-2" />
         </button>
         
         {/* Progress bar */}
@@ -231,10 +231,10 @@ const AdventureCarousel: React.FC = () => {
         
         <button
           onClick={() => emblaApi?.scrollNext()}
-          className="w-12 h-12 rounded-full flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-60 transition-all"
+          className="w-12 h-12 rounded-full flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 transition-all text-white"
           aria-label="Next slide"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-6 h-6 stroke-2" />
         </button>
         
         <div className="w-16 text-3xl font-bold">
